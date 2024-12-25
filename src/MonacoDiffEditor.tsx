@@ -1,6 +1,6 @@
-import { createSignal, createEffect, onCleanup, JSX, onMount, mergeProps, on } from 'solid-js'
+import { createSignal, createEffect, onCleanup, type JSX, onMount, mergeProps, on } from 'solid-js'
 import * as monacoEditor from 'monaco-editor'
-import loader, { Monaco } from '@monaco-editor/loader'
+import loader, { type Monaco } from '@monaco-editor/loader'
 import { Loader } from './Loader'
 import { MonacoContainer } from './MonacoContainer'
 import { getOrCreateModel } from './utils'
@@ -44,7 +44,7 @@ export const MonacoDiffEditor = (inputProps: MonacoDiffEditorProps) => {
     inputProps,
   )
 
-  let containerRef: HTMLDivElement
+  let containerRef: HTMLDivElement = undefined!
 
   const [monaco, setMonaco] = createSignal<Monaco>()
   const [editor, setEditor] = createSignal<monacoEditor.editor.IStandaloneDiffEditor>()

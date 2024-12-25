@@ -1,6 +1,6 @@
-import { createSignal, createEffect, onCleanup, JSX, onMount, mergeProps, on } from 'solid-js'
+import { createSignal, createEffect, onCleanup, type JSX, onMount, mergeProps, on } from 'solid-js'
 import * as monacoEditor from 'monaco-editor'
-import loader, { Monaco } from '@monaco-editor/loader'
+import loader, { type Monaco } from '@monaco-editor/loader'
 import { Loader } from './Loader'
 import { MonacoContainer } from './MonacoContainer'
 import { getOrCreateModel } from './utils'
@@ -22,6 +22,7 @@ export interface MonacoEditorProps {
   saveViewState?: boolean
   loaderParams?: LoaderParams
   onChange?: (value: string, event: monacoEditor.editor.IModelContentChangedEvent) => void
+  onBeforeMount?: (monaco: Monaco) => void
   onMount?: (monaco: Monaco, editor: monacoEditor.editor.IStandaloneCodeEditor) => void
   onBeforeUnmount?: (monaco: Monaco, editor: monacoEditor.editor.IStandaloneCodeEditor) => void
 }
@@ -38,7 +39,7 @@ export const MonacoEditor = (inputProps: MonacoEditorProps) => {
     inputProps,
   )
 
-  let containerRef: HTMLDivElement
+  let containerRef: HTMLDivElement = undefined!
 
   const [monaco, setMonaco] = createSignal<Monaco>()
   const [editor, setEditor] = createSignal<monacoEditor.editor.IStandaloneCodeEditor>()
@@ -55,6 +56,8 @@ export const MonacoEditor = (inputProps: MonacoEditorProps) => {
 
     try {
       const monaco = await loadMonaco
+      props.onBeforeMount?.(monaco);
+
       const editor = createEditor(monaco)
       setMonaco(monaco)
       setEditor(editor)
