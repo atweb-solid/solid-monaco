@@ -4,7 +4,7 @@ import loader, { type Monaco } from '@monaco-editor/loader'
 import { Loader } from './Loader'
 import { MonacoContainer } from './MonacoContainer'
 import { getOrCreateModel } from './utils'
-import { LoaderParams } from './types'
+import type { LoaderParams } from './types'
 
 const viewStates = new Map()
 
